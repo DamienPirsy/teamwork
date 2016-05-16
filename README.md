@@ -1,5 +1,6 @@
 # Laravel 5 Teamwork PM API Bridge
 
+[![Build Status](https://travis-ci.org/damienpirsy/teamwork.svg?branch=master)](https://travis-ci.org/DamienPirsy/teamwork)
 This is an fork of the great Teamwork API Bridge package by [Rossedman](https://github.com/rossedman/teamwork)
 
 ## Installation
