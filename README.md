@@ -1,14 +1,15 @@
 # Laravel 5 Teamwork PM API Bridge
 
 [![Build Status](https://travis-ci.org/DamienPirsy/teamwork.svg?branch=master)](https://travis-ci.org/DamienPirsy/teamwork)
-This is an fork of the great Teamwork API Bridge package by [Rossedman](https://github.com/rossedman/teamwork)
+
+This is an extended fork of the great Teamwork API Bridge package by [Rossedman](https://github.com/rossedman/teamwork), with additional methods for fetching [Teamwork](http://www.teamwork.com) data.
 
 ## Installation
 
-Add this to your `composer.json` file and then run `composer update`.
+Require the library:
 
 ```
-"damienpirsy/teamwork": "~1.0"
+$ composer require damienpirsy/teamwork
 ```
 
 ## Laravel Setup
