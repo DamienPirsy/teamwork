@@ -3,6 +3,7 @@
     "description": "PHP wrapper for the Teamwork project management API",
     "keywords": ["teamwork", "api", "laravel", "project management"],
     "license": "MIT",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "Damien Pirsy",
