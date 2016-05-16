@@ -1,12 +1,12 @@
 {
-    "name": "rossedman/teamwork",
+    "name": "damienpirsy/teamwork",
     "description": "PHP wrapper for the Teamwork project management API",
     "keywords": ["teamwork", "api", "laravel", "project management"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Ross Edman",
-            "email": "ross.edman@gmail.com"
+            "name": "Damien Pirsy",
+            "email": "damien.pirsy@gmail.com"
         }
     ],
     "require": {
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Rossedman\\Teamwork\\": "src"
+            "Damienpirsy\\Teamwork\\": "src"
         }
     },
     "suggest": {
