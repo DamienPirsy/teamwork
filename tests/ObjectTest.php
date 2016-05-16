@@ -61,7 +61,7 @@ class ObjectTest extends PHPUnit_Framework_TestCase {
 
 }
 
-class ObjectStub extends \Rossedman\Teamwork\AbstractObject {
+class ObjectStub extends \Damienpirsy\Teamwork\AbstractObject {
 
     public function valid_args($args, $accepted)
     {
