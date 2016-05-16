@@ -1,7 +1,8 @@
-<?php  namespace Rossedman\Teamwork;
+<?php  
+namespace Damienpirsy\Teamwork;
 
 use GuzzleHttp\Client as Guzzle;
-use Rossedman\Teamwork\Contracts\RequestableInterface;
+use Damienpirsy\Teamwork\Contracts\RequestableInterface;
 
 class Client implements RequestableInterface {
 

@@ -1,4 +1,5 @@
-<?php  namespace Rossedman\Teamwork\Facades;
+<?php  
+namespace Damienpirsy\Teamwork\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -8,5 +9,5 @@ class Teamwork extends Facade {
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'rossedman.teamwork'; }
+    protected static function getFacadeAccessor() { return 'damienpirsy.teamwork'; }
 }

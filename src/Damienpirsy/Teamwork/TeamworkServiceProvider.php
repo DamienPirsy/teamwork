@@ -1,4 +1,5 @@
-<?php namespace Rossedman\Teamwork;
+<?php 
+namespace Damienpirsy\Teamwork;
 
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Support\ServiceProvider;

@@ -1,4 +1,5 @@
-<?php  namespace Rossedman\Teamwork\Contracts; 
+<?php  
+namespace Damienpirsy\Teamwork\Contracts; 
 
 interface RequestableInterface {
 
