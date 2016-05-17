@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->  
+<head>
+    <title>Teamwork API wrapper for Laravel 5</title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Laravel 5 Wrapper for Teamwork API">
+    <meta name="author" content="Matteo Vignoli aka Damien Pirsy">    
+    <link rel="shortcut icon" href="favicon.ico">  
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">   
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="assets/plugins/prism/prism.css">
+    <link rel="stylesheet" href="assets/plugins/elegant_font/css/style.css">
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="assets/css/styles.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head> 
+
+<body class="body-green">     
+    <div class="page-wrapper">
+        
+        <!-- ******Header****** -->
+        <header id="header" class="header">
+            <div class="container">
+                <div class="branding">
+                    <h1 class="logo">
+                        <a href="index.html">
+                            <span aria-hidden="true" class="icon_documents_alt icon"></span>
+                            <span class="text-highlight">Teamwork</span> <span class="text-bold">API</span>
+                        </a>
+                    </h1>
+                </div><!--//branding-->
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active">Usage</li>
+                </ol>
+            </div><!--//container-->
+        </header><!--//header-->
+        <div class="doc-wrapper">
+            <div class="container">
+                <div id="doc-header" class="doc-header text-center">
+                    <h1 class="doc-title"><i class="icon fa fa-code"></i> Usage & Documentation</h1>
+                    <div class="meta"><i class="fa fa-clock-o"></i> Last updated: May 16th, 2016</div>
+                </div><!--//doc-header-->
+                <div class="doc-body">
+                    <div class="doc-content">
+                        <div class="content-inner">
+                            <section id="usage" class="doc-section">
+                                <h2 class="section-title">Usage</h2>
+                                <div class="section-block">
+                                  <div class="section-block">
+                                    <div class="code-block">
+                                        <h6>Façade accessor</h6>
+                                        <p>If you are using the Façade with Laravel you can easily access Teamwork like this</p>
+                                        <pre><code class="language-php">
+$people = Teamwork::people()->all();
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                  </div><!--//section-block-->
+                                </div><!--//section-block-->
+                            </section><!--//doc-section-->
+
+                            <section id="restful" class="doc-section">                            
+                                <h2 class="section-title">Restful Trait</h2>
+                                <div class="section-block">
+                                  <div class="section-block">
+                                    <div class="code-block">
+                                        <p>Most endpoints implements a commont Restful Trait for basic CRUD operations and records fetching. Just change <code>method()</code> with the corresponding one:</p>
+                                        <pre><code class="language-php">
+// returns all the records, with NO options passed
+$data = Teamwork::method()->all();
+
+// Convenient method to paginates the records, which is the same as using all(['page' => 10, 'pageSize' => 200])
+// The $pageSize param is OPTIONAL and defaults to 200
+$data = Teamwork::method()->paginate(10, $pageSize)
+
+// returns the record based on the passed ID
+$data = Teamwork::method($id)->find()
+
+// creates a new element
+// @param array $data
+// POST
+Teamwork::method()->create($data);
+
+// updates an element
+// @param array $data
+// PUT
+Teamwork::method($id)->update($data);
+
+// Deletes a record
+// DELETE
+Teamwork::method($id)->delete();
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                  </div><!--//section-block-->
+                                </div><!--//section-block-->
+                            </section><!--//doc-section-->
+
+                            <section id="response" class="doc-section">                            
+                                <h2 class="section-title">Response</h2>
+                                <div class="section-block">
+                                  <div class="section-block">
+                                    <div class="code-block">
+                                        <p>All returned responses are arrays containing the original Teamwork response along with the provided <code>x-records</code>, <code>x-pages</code> and <code>x-page</code> pagination headers sent, to allow for an easier pagination of records for the consumer. Example of response:</p>
+                                        <pre><code class="language-php">
+array:5 [
+  "people" => array:8 [...]
+  "STATUS" => "OK"
+  "records" => "8"
+  "pages" => "1"
+  "page" => "1"
+]
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                  </div><!--//section-block-->
+                                </div><!--//section-block-->
+                            </section><!--//doc-section-->   
+
+                            <section id="documentation" class="doc-section">
+                                <h2 class="section-title">Documentation</h2>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="account">Account</h3>                                
+                                    <div class="code-block">
+                                        <p>Returns information about the account. See official <a href="http://developer.teamwork.com/account" target="_blank">API section</a> for further info.</p>
+                                        <pre><code class="language-php">
+// Get account details
+// GET /account.json
+$data = Teamwork::account()->details();
+
+// Returns details about the Teamwork account and some basic details of the current user being authenticated.
+// GET /authenticate.json
+$data = Teamwork::account()->authenticate();
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="activity">Activity</h3>
+                                    <div class="code-block">
+                                        <p>Get latest activity across all projects, ordered chronologically:</p>
+                                        <p>Accepted params:</p>
+                                        <ul>
+                                          <li>maxItems (numeric, default=60, Max=200)</li>
+                                          <li>onlyStarred (boolean, default=no)</li>
+                                        </ul>
+                                        <pre><code class="language-php">
+// GET /latestActivity.json
+// Lists the latest activity across all projects ordered chronologically
+$data = Teamwork::activity()->latest(['maxItems' => 10]);
+// Get only starred activity by the account your are using.
+$data = Teamwork::activity()->latest(['onlyStarred' => 1]);
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                    <div class="code-block">
+                                        <p> Delete an activity entry:</p>
+                                        <pre><code class="language-php"> 
+// Delete a specific activity by ID
+$data = Teamwork::activity($id)->delete();
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="billing">Billing</h3>
+                                    <div class="code-block">
+                                        <h4><strong>Invoices</strong></h4>
+                                        <p>Implements the <a href="#restful" class="scrollto">RestuflTrait</a>, the <code>all()</code> method is overridden.</p>
+                                        <pre><code class="language-php">
+// get all invoices. 
+// GET /invoices.json
+// Optional params type, projectStatus, page
+$data = Teamwork::invoices()->all();
+
+//  Mark a specific invoice as complete
+//  PUT /invoices/:id/complete.json
+Teamwork::invoices($id)->complete();
+
+// Mark a specific invoice as not complete
+//  PUT /invoices/:id/uncomplete.json
+Teamwork::invoices($id)->uncomplete();
+
+// Get a list of valid currency codes
+// GET /currencycodes.json
+Teamwork::invoices()->currencies();
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                    <div class="code-block">
+                                        <h4><strong>Expenses</strong></h4>
+                                        <p>Fully implements the <a href="#restful" class="scrollto">RestuflTrait</a> with the <code>expenses()</code> method.</p>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="categories">Project categories</h3>
+                                    <div class="code-block">
+                                        <p>Fully implements the <a href="#restful" class="scrollto">RestuflTrait</a> with the <code>categories()</code> method.</p>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="calendar">Calendar</h3>
+                                    <div class="code-block">
+                                        <p>Fully implements the <a href="#restful" class="scrollto">RestuflTrait</a> with the <code>calendar()</code> method.</p>
+<pre><code class="language-php">
+// @todo
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="companies">Companies</h3>
+                                    <div class="code-block">
+                                        <p>Implements the <a href="#restful" class="scrollto">RestuflTrait</a> with the <code>company()</code> method. Additional methods:</p>
+<pre><code class="language-php">
+// Get People Associated With Company
+// GET /companies/{company_id}/people.json
+$data = Teamwork::company()->people();
+
+// Retrieve projects assigned to a specific company
+// GET /companies/{id}/projects.json
+Teamwork::company($id)->projects();
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="files">Files</h3>
+                                    <div class="code-block">
+<pre><code class="language-php">
+// Find a file by ID
+// GET /files/{file_id}.json
+$data = Teamwork::file($id)->find();
+
+// Creates a new file version
+// POST /files/{file_id}.json
+Teamwork::file($id)->createVersion([
+    "pendingFileRef" => "tf_F7F01655",
+    "description" =>"An optional description"
+    ]
+);
+
+// Deletes a file
+// DELETE /files/{file_id}.json
+Teamwork::file($id)->delete();
+
+// FIle upload
+//@TODO
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="milestones">Milestones</h3>
+                                    <p>Implements the <a href="#restful" class="scrollto">RestuflTrait</a> with the <code>milestones()</code> method. The <code>all()</code> and <code>find()</code> methods are overridden.</p>                                   
+                                    <div class="code-block">
+<pre><code class="language-php">
+// Get all milestones in Teamwork.
+$data = Teamwork::milestones()->all();
+
+// Get all milestones and get progress of each milestone.
+$data = Teamwork::milestones()->all(['getProgress' => 'true']);
+
+// Find a specific milestone by id
+$data = Teamwork::milestones($id)->find();
+
+// Find milestone by ID with tasks, task lists and progress.
+$data = Teamwork::milestones($id)->find([
+   'getProgress' => 'true',
+   'showTaskLists' => 'true',
+   'showTasks' => 'true'
+]);
+
+// Marks the specified milestone as complete
+// PUT /milestones/{id}/complete.json
+Teamwork::milestones($id)->complete();
+
+// Marks the specified milestone as uncomplete
+// PUT /milestones/{id}/uncomplete.json
+Teamwork::milestones($id)->uncomplete();
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="people">People</h3>
+                                    <p>Implements the <a href="#restful" class="scrollto">RestuflTrait</a> with the <code>people()</code> method. The <code>all()</code> method is overridden.</p>                                   
+                                    <div class="code-block">
+<pre><code class="language-php">
+// Get a person by email address
+$data = Teamwork::people()->all(['emailaddress' => 'test@awesome.com']);
+
+// Returns the details for the account you're currently logged in with
+$data = Teamwork::people()->me();
+
+// Retrieve a API Keys for all people on account
+$data = Temwork::people()->apiKeys();
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="status">Status</h3>
+                                    <div class="code-block">
+<pre><code class="language-php">
+// Get all peoples' status
+$data = Teamwork::status()->all();
+
+// Get my status
+$data = Teamwork::status()->mine();
+
+// Get a person's status
+$data = Teamwork::status()->persons($id);
+
+// create a person's status
+Teamwork::status()->createPersons($person_id, $data);
+
+// create my status
+Teamwork::status()->createMine($data);
+
+// Update a status by ID
+Teamwork::status($id)->update($data);
+
+// Update my status by ID
+Teamwork::status($id)->updateMine($data);
+
+// Update a specific person's status by ID
+Teamwork::status($id)->updatePersons($person_id, $data);
+
+// Deletes a status by ID
+Teamwork::status($id)->delete();
+
+// Deletes my status by ID
+Teamwork::status($id)->deleteMine();
+
+// Deletes a person's status by ID
+Teamwork::status($id)->deletePersons($person_id);
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="permissions">Permissions</h3>
+                                    <div class="code-block">
+<pre><code class="language-php">
+// Add a new user to a project
+Teamwork::project($id)->addUser($user_id);
+
+// Add/Remove multiple people to/from a project
+Teamwork::project($id)->addRemoveUsers($data);
+
+// Remove a user from a project
+Teamwork::project($id)->removeUser($user_id);
+
+// Get a user permissions on a project
+$data = Teamwork::project($id)->permission($user_id);
+
+// Set a user permissions on a project
+Teamwork::project($id)->setPermission($user_id, $data);
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="projects">Projects</h3>
+                                    <p>Implements the <a href="#restful" class="scrollto">RestuflTrait</a> with the <code>project()</code> method. The <code>all()</code> method is overridden.</p>
+                                    <div class="code-block">
+<pre><code class="language-php">
+// Retrive all starred projects
+$data = Teamwork::project()->starred();
+// Star a project
+Teamwork::project($id)->star();
+// Un-star a project
+Teamwork::project($id)->unstar();
+
+
+
+// Retrieve a project box folder
+$data = Teamwork::project($id)->box();
+// Set a project box
+Teamwork::project($id)->setBox($data);
+
+// Retrieve a project google drive box folder
+$data = Teamwork::project($id)->drive();
+// Set a project google drive box
+Teamwork::project($id)->setDrive($data);
+
+
+
+// Get the latest activity
+// Options: maxItems
+$data = Teamwork::project($projectID)->activity();
+$teamwork->project($projectID)->activity(['maxItems' => 5]);
+
+
+
+// Get all companies involved in a project.
+$data = Teamwork::project($projectID)->companies();
+
+
+
+// Get all people associated with a project.
+$data = Teamwork::project($projectID)->people();
+
+
+
+// Get all links on a project
+$data = Teamwork::project($projectID)->links();
+
+
+
+// Get the time totals for a project.
+$data = Teamwork::project($projectID)->timeTotal();
+
+
+
+// Retrieve latest messages and archived messages
+$data = Teamwork::project($projectID)->latestMessages();
+$data = Teamwork::project($projectID)->archivedMessages();
+
+
+
+// Get all milestones
+$data = Teamwork::project($projectID)->milestones();
+// Create a milestone associated with a project
+Teamwork::project($projectId)->createMilestone([
+    "title" => "Save The World",
+    "description" => "You must save the world in the next few days",
+    "deadline" => "20150402",
+    "notify" => true,
+    "reminder" => true
+]);
+
+
+
+// Get all invoices for a project
+$data = Teamwork::project($id)->invoices();
+// Create an invoice associated with a project
+Teamwork::project($projectId)->createInvoice($data);
+
+
+
+// Get all expenses for a project
+$data = Teamwork::project($id)->expenses();
+// Create an invoice associated with a project
+Teamwork::project($projectId)->createExpense($data);
+
+
+
+// List Files on a Project
+$data = Teamwork::project($id)->files();
+// Add a file to a project
+Teamwork::project($id)->createFile($data);
+
+
+
+// List all roles on a project
+$data = Teamwork::project($id)->roles();
+// Add a role to a project
+Teamwork::project($id)->addRole($data);
+
+// Get Project Email Address
+$data = Teamwork::project($id)->emailAddress();
+// Update a project Email Address
+Teamwork::project($id)->updateEmailAddress($data);
+
+// Get all tasklists on a project
+$data = Teamwork::project($id)->tasklists();
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                </div>
+                                 <div class="section-block">
+                                    <h3 class="block-title" id="roles">Project Roles</h3>
+                                    <div class="code-block">
+<pre><code class="language-php">
+// Update a role
+Teamwork::role($id)->update($data);
+
+// Delete a role
+Teamwork::role($id)->delete();
+</code>
+                                        </pre>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="links">Links</h3>
+                                    <div class="code-block">
+                                        <p>Fully implements the <a href="#restful" class="scrollto">RestuflTrait</a> with the <code>links()</code> method.</p>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="tasks">Tasks</h3>
+                                    <div class="code-block">
+                                        <pre><code class="language-php">
+// Get all tasks.
+Teamwork::task()->all();
+
+// You can also filter tasks by many different parameters that are
+// listed here in the Teamwork developers docs. This example
+// shows how to filter by tasks that are overdue and then
+// order them by date.
+Teamwork::task()->all(['filter' => 'overdue', 'sort' => 'duedate']);
+
+// Retrieve a task by id
+Teamwork::task($id)->find();
+
+// Retrieve a task by id and exclude files and subtasks.
+Teamwork::task($id)->find(['getFiles' => 'false', 'nestSubTasks' => 'true]);
+
+// Complete and uncomplete a task.
+Teamwork::task($id)->complete();
+Teamwork::task($id)->uncomplete();
+
+
+// Get all reminders on a task
+$data = Teamwork::task($id)->reminders();
+// Create a reminder on a task
+Teamwork::task($id)->setReminders($data);
+// Updates a reminder on a task
+Teamwork::task($id)->updateReminder($id_reminder, $data);
+// Deletes a reminder on a task
+Teamwork::task($id)->deleteReminder($id_reminder);
+</code></pre>
+                                    </div><!--//code-block-->
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title" id="tags">Tags</h3>
+                                    <div class="code-block">
+                                        <p>Fully implements the <a href="#restful" class="scrollto">RestuflTrait</a> with the <code>tag()</code> method.</p>
+                                        <p>Additionaly, the <code>TagsTrait</code> is implemented by several resources to access the corresponding tags. Example:</p>
+                                        <pre><code class="language-php">
+// Project tags
+$data = Teamwork::project($id)->tags();
+// Update all project tags
+Teamwork::project($id)->updateTags($data);
+</code></pre>
+                                    </div><!--//code-block-->
+                                </div>
+                            </section><!--//doc-section-->
+                        </div><!--//content-inner-->
+                    </div><!--//doc-content-->
+                    <div class="doc-sidebar hidden-xs">
+                        <nav id="doc-nav">
+                            <ul id="doc-menu" class="nav doc-menu" data-spy="affix">
+                                <li><a class="scrollto" href="#usage">Usage</a></li>
+                                <li><a class="scrollto" href="#restful">RestuflTrait</a></li>
+                                <li><a class="scrollto" href="#response">Response</a></li>
+                                <li>
+                                    <a class="scrollto" href="#documentation">Documentation</a>
+                                    <ul class="nav doc-sub-menu">
+                                        <li><a class="scrollto" href="#account">Account</a></li>
+                                        <li><a class="scrollto" href="#activity">Activity</a></li>
+                                        <li><a class="scrollto" href="#billing">Billing (Invoices and Expenses)</a></li>
+                                        <li><a class="scrollto" href="#categories">(Project) categories</a></li>
+                                        <li><a class="scrollto" href="#calendar">Calendar</a></li>
+                                        <li><a class="scrollto" href="#companies">Companies</a></li>
+                                        <li><a class="scrollto" href="#files">Files</a></li>
+                                        <li><a class="scrollto" href="#milestones">Milestones</a></li>
+                                        <li><a class="scrollto" href="#people">People</a></li>
+                                        <li><a class="scrollto" href="#status">People status</a></li>
+                                        <li><a class="scrollto" href="#permissions">Permissions</a></li>
+                                        <li><a class="scrollto" href="#projects">Projects</a></li>
+                                        <li><a class="scrollto" href="#roles">Project Roles</a></li>
+                                        <li><a class="scrollto" href="#links">Links</a></li>
+                                        <li><a class="scrollto" href="#tasks">Tasks</a></li>
+                                        <li><a class="scrollto" href="#tags">Tags</a></li>
+                                    </ul><!--//nav-->
+                                </li>
+                            </ul><!--//doc-menu-->
+                        </nav>
+                    </div><!--//doc-sidebar-->
+                </div><!--//doc-body-->              
+            </div><!--//container-->
+        </div><!--//doc-wrapper-->
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+            <small class="copyright">Teamwork api @DamienPirsy  | Theme by <a href="http://themes.3rdwavemedia.com/" target="_blank">Xiaoying Riley</a></small>
+        </div><!--//container-->
+    </footer><!--//footer-->
+         
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/prism/prism.js"></script>    
+    <script type="text/javascript" src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>                                                                
+    <script type="text/javascript" src="assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="assets/js/main.js"></script>
+    
+</body>
+</html> 
+
