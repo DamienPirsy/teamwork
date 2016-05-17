@@ -2,10 +2,11 @@
 namespace Damienpirsy\Teamwork; 
 
 use Damienpirsy\Teamwork\Traits\RestfulTrait;
+use Damienpirsy\Teamwork\Traits\TagsTrait;
 
 class Milestone extends AbstractObject {
 
-    use RestfulTrait;
+    use RestfulTrait, TagsTrait;
 
     protected $wrapper  = 'milestone';
 

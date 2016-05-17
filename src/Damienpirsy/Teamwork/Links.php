@@ -2,10 +2,11 @@
 namespace Damienpirsy\Teamwork;
 
 use Damienpirsy\Teamwork\Traits\RestfulTrait;
+use Damienpirsy\Teamwork\Traits\TagsTrait;
 
 class Links extends AbstractObject {
 
-    use RestfulTrait;
+    use RestfulTrait, TagsTrait;
 
     protected $wrapper  = 'link';
 

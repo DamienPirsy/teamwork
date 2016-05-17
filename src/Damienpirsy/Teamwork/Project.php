@@ -3,14 +3,28 @@ namespace Damienpirsy\Teamwork;
 
 use Damienpirsy\Teamwork\Traits\TimeTrait;
 use Damienpirsy\Teamwork\Traits\RestfulTrait;
+use Damienpirsy\Teamwork\Traits\TagsTrait;
 
 class Project extends AbstractObject {
 
-    use RestfulTrait, TimeTrait;
+    use RestfulTrait, TimeTrait, TagsTrait;
 
     protected $wrapper  = 'project';
 
     protected $endpoint = 'projects';
+
+
+    /**
+     * Get All projects
+     * GET /projects.json
+     *
+     * @return  mixed
+     */
+    public function all($args = null)
+    {
+        $this->areArgumentsValid($args, ['status', 'updatedAfterDate', 'updatedAfterTime', 'orderby', 'createdAfterDate', 'createdAfterTime', 'page']);
+        return $this->client->get("$this->endpoint", $args)->response();
+    }
 
     /**
      * Get Project Activity
@@ -21,7 +35,6 @@ class Project extends AbstractObject {
     public function activity($args = null)
     {
         $this->areArgumentsValid($args, ['maxItems']);
-
         return $this->client->get("$this->endpoint/$this->id/latestActivity", $args)->response();
     }
 
@@ -56,6 +69,65 @@ class Project extends AbstractObject {
     public function starred()
     {
         return $this->client->get("$this->endpoint/starred")->response();
+    }
+
+    /**
+     *  Read project Box folder and access
+     *  GET /projects/{id}/box.json
+     * @return [type]
+     */
+    public function box()
+    {
+        return $this->client->get("$this->endpoint/$this->id/box",[])->response();
+    }
+
+    /**
+     *  Set project Box folder and access
+     *  PUT /projects/{id}/box.json
+     */
+    public function setBox($data)
+    {
+        return $this->client->put("$this->endpoint/$this->id/box", ['box' => $data])->response();
+    }
+
+    /**
+     *  Read project Google Drive folder and access
+     *  GET /projects/{id}/googleDrive.json
+     * @return [type]
+     */
+    public function drive()
+    {
+        return $this->client->get("$this->endpoint/$this->id/googleDrive",[])->response();
+    }
+
+    /**
+     *  Set project Google Drive folder and access
+     *  PUT /projects/{id}/googleDrive
+     */
+    public function setDrive($data)
+    {
+        return $this->client->put("$this->endpoint/$this->id/googleDrive", ['google-drive' => $data])->response();        
+    }
+
+    /**
+     *  List files within a projecr
+     *  GET /projects/{id}/files.json
+     * @return array
+     */
+    public function files()
+    {
+        return $this->client->get("$this->endpoint/$this->id/files",[])->response();
+    }
+
+    /**
+     * Add a File to a Project 
+     * POST /projects/{project_id}/files.json
+     * @param  array $data
+     * @return array
+     */
+    public function createFile($data)
+    {
+        return $this->client->post("$this->endpoint/$this->id/files", ['file' => $data])->response();
     }
 
     /**
@@ -182,7 +254,7 @@ class Project extends AbstractObject {
      */
     public function tasklists($args = null)
     {
-        $this->areArgumentsValid($args, ['getOverdueCount', 'getCompletedCount', 'status']);
+        $this->areArgumentsValid($args, ['getOverdueCount', 'getCompletedCount', 'status', 'responsible-party-ids']);
         return $this->client->get("$this->endpoint/$this->id/tasklists", $args)->response();
     }
 
@@ -198,6 +270,16 @@ class Project extends AbstractObject {
     }
 
     /**
+     *  Update Project Email Address
+     *  PUT /projects/{id}/emailaddress.json
+     * @return mixed
+     */
+    public function updateEmailAddress($data)
+    {
+        return $this->client->put("$this->endpoint/$this->id/emailaddress", ['emailaddress' => $data])->response();
+    }
+
+    /**
      * Get all invoices on a single project
      * GET /projects/{project_id}/invoices
      * @param  mixed $args type -> all|completed|active(default), page
@@ -206,7 +288,7 @@ class Project extends AbstractObject {
     public function invoices($args = null)
     {
         $this->areArgumentsValid($args, ['type', 'page']);        
-        return $this->cliente->get("$this->endpoint/$this->id/invoices", $args)->response();
+        return $this->client->get("$this->endpoint/$this->id/invoices", $args)->response();
     }
 
     /**
@@ -227,7 +309,7 @@ class Project extends AbstractObject {
      */
     public function expenses()
     {
-        return $this->cliente->get("$this->endpoint/$this->id/expenses", [])->response();
+        return $this->client->get("$this->endpoint/$this->id/expenses", [])->response();
     }
 
     /**
@@ -247,7 +329,7 @@ class Project extends AbstractObject {
      */
     public function risks()
     {
-        return $this->cliente->get("$this->endpoint/$this->id/risks", [])->response();
+        return $this->cliene->get("$this->endpoint/$this->id/risks", [])->response();
     }
 
     /**
@@ -262,4 +344,72 @@ class Project extends AbstractObject {
         return $this->client->get("$this->endpoint/$this->id/tasks", $args)->response();
     }
 
+    /**
+     *  Add a new user to a project
+     *  POST /projects/{id}/people/{id}.jso
+     */
+    public function addUser($id)
+    {
+        return $this->client->post("$this->endpoint/$this->id/people/$id")->response();
+    }
+
+    /**
+     *  Add/Remove multiple people to/from a project
+     *  PUT /projects/{id}/people.json
+     * @param  array $data
+     * @return array
+     */
+    public function addRemoveUsers($data)
+    {
+        return $this->client->post("$this->endpoint/$this->id/people", $data)->response();
+    }
+
+    /**
+     *  Remove a user from a project
+     *  DELETE /projects/{id}/people/{id}.json
+     */
+    public function removeUser($id)
+    {
+        return $this->client->delete("$this->endpoint/$this->id/people/$id")->response();
+    }
+
+    /**
+     *  Get a users permissions on a project
+     *  GET /projects/{id}/people/{id}.json
+     * @param  int $id
+     * @return array
+     */
+    public function permission($id)
+    {
+        return $this->client->get("$this->endpoint/$this->id/people/$id")->response();
+    }
+
+    /**
+     *  Update a users permissions on a project
+     *  PUT /projects/{id}/people/{id}.json
+     * @param int $id
+     */
+    public function setPermission($id, $data)
+    {
+        return $this->client->put("$this->endpoint/$this->id/people/$id", ['permissions' => $data])->response();
+    }
+
+    /**
+     * List all roles on a project
+     * GET /projects/{id}/roles.json
+     * @return array
+     */
+    public function roles()
+    {
+        return $this->client->get("$this->endpoint/$this->id/roles")->response();
+    }
+
+    /**
+     *  Add a role to a project
+     *  POST /projects/{id}/roles.json
+     */
+    public function addRole($data)
+    {
+        return $this->client->post("$this->endpoint/$this->id/roles", [])->response(['role' => $data]);
+    }
 }

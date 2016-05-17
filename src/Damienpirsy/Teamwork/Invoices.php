@@ -50,6 +50,6 @@ class Invoices extends AbstractObject {
      */
     public function currencies()
     {
-        return $this->client->put("currencycodes", [])->response();
+        return $this->client->get("currencycodes", [])->response();
     }
 }

@@ -9,7 +9,7 @@ This is an extended fork of the great Teamwork API Bridge package by [Rossedman]
 Require the library:
 
 ```
-$ composer require damienpirsy/teamwork
+$ composer require damienpirsy/teamwork ~1.0
 ```
 
 ## Laravel Setup
@@ -19,7 +19,7 @@ Once this package is pulled into your project just add this to your `config/app.
 ```php
 'providers' => [
     ...
-    'Damienpirsy\Teamwork\TeamworkServiceProvider',
+    Damienpirsy\Teamwork\TeamworkServiceProvider::class,
 ],
 ```
 
@@ -28,7 +28,7 @@ and add the facade to your `aliases` array
 ```php
 'aliases' => [
     ...
-    'Teamwork' => 'Damienpirsy\Teamwork\Facades\Teamwork',
+    'Teamwork' => Damienpirsy\Teamwork\Facades\Teamwork::class,
 ],
 ```
 
@@ -59,5 +59,5 @@ $client     = new Client(new Guzzle, 'YourSecretKey', 'YourTeamworkUrl');
 $teamwork   = new Teamwork($client);
 ```
 
-# teamwork
-Teamwork API Wrapper for Laravel 5
+# Documentation
+Please refer to the [project website](http://damienpirsy.github.io/teamwork) for the full package documentation and usage examples.

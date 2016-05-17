@@ -1,9 +1,11 @@
 <?php  
 namespace Damienpirsy\Teamwork;
 
-use Damienpirsy\Teamwork\Traits\RestfulTrait;
+use Damienpirsy\Teamwork\Traits\TagsTrait;
 
 class Tasklist extends AbstractObject {
+
+    use TagsTrait;
 
     protected $wrapper  = 'todo-list';
 
@@ -19,7 +21,7 @@ class Tasklist extends AbstractObject {
     }
 
     /**
-     * PUT /todo_lists/{$id}.json
+     * PUT /taskslists/{$id}.json
      * @return mixed
      */
     public function update($data)
@@ -28,7 +30,7 @@ class Tasklist extends AbstractObject {
     }
 
     /**
-     * DELETE /todo_lists/{$id}.json
+     * DELETE /tasklists/{$id}.json
      * @return mixed
      */
     public function delete()
@@ -44,6 +46,10 @@ class Tasklist extends AbstractObject {
     {
         return $this->client->get("$this->endpoint/templates")->response();
     }
+
+
+
+    
 
     /**
      * Time Totals
