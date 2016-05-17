@@ -13,16 +13,12 @@ trait RestfulTrait {
 
     /**
      * Allows for pagination
-     * @param  [type] $args
-     * @return [type]
+     * @param  int $number
+     * @return JSON
      */
-    public function paginate($args = null)
+    public function paginate($number, $pageSize = 200)
     {
-        if (null === $args) {
-            return $this->all();
-        }
-        $this->areArgumentsValid($args, ['page']);
-        return $this->client->get($this->endpoint, $args)->response();
+        return $this->client->get($this->endpoint, ['page' => $number, 'pageSize' => $pageSize])->response();
     }
 
     /**
@@ -34,7 +30,8 @@ trait RestfulTrait {
     }
 
     /**
-     * @return array | companyID
+     * @param  array $data
+     * @return mixed
      */
     public function create($data)
     {
@@ -42,6 +39,7 @@ trait RestfulTrait {
     }
 
     /**
+     * @param  array $data
      * @return mixed
      */
     public function update($data)

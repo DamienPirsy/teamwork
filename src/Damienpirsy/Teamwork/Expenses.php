@@ -7,5 +7,6 @@ class Expenses extends AbstractObject {
 
     use RestfulTrait;
 
+    protected $wrapper = 'expense';
     protected $endpoint = 'expenses';
 }

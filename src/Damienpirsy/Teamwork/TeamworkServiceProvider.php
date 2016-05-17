@@ -13,17 +13,17 @@ class TeamworkServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app['rossedman.teamwork'] = $this->app->share(function($app)
+        $this->app['damienpirsy.teamwork'] = $this->app->share(function($app)
         {
-            $client = new \Rossedman\Teamwork\Client(new Guzzle,
+            $client = new \Damienpirsy\Teamwork\Client(new Guzzle,
                 $app['config']->get('services.teamwork.key'),
                 $app['config']->get('services.teamwork.url')
             );
 
-            return new \Rossedman\Teamwork\Factory($client);
+            return new \Damienpirsy\Teamwork\Factory($client);
         });
 
-        $this->app->bind('Rossedman\Teamwork\Factory', 'rossedman.teamwork');
+        $this->app->bind('Damienpirsy\Teamwork\Factory', 'damienpirsy.teamwork');
     }
 
 }

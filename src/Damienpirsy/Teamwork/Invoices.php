@@ -7,6 +7,7 @@ class Invoices extends AbstractObject {
 
     use RestfulTrait;
 
+    protected $wrapper = 'invoice';
     protected $endpoint = 'invoices';
 
     /**
@@ -49,6 +50,6 @@ class Invoices extends AbstractObject {
      */
     public function currencies()
     {
-        return $this->client->put("currencycodes"; [])->response();
+        return $this->client->put("currencycodes", [])->response();
     }
 }
